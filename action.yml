@@ -1,11 +1,84 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Anka action up'
+description: 'Spins up new VM instance in Anka Controller with Github action runner in it'
+author: 'Veertu Inc.'
 inputs:
-  milliseconds: # change this
+  # Github
+  gh-owner:
+    description: 'GitHub repository owner'
+    required: false
+    default: ${{ github.repository_owner }}
+  gh-repository:
+    description: 'GitHub repository to create action runner'
+    required: false
+    default: ${{ github.repository }}
+  gh-pat:
+    description: 'GitHub personal access token (requires "repo" scope access)'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+
+  # Template
+  template-id:
+    description: 'Id of the template in the Anka Controller'
+    required: true
+  template-tag:
+    description: 'Tag of the template in the Anka Controller'
+    required: false
+  template-runner-dir:
+    description: ''
+    required: false
+    default: '/Users/anka/actions-runner'
+
+  # Connection
+  base-url:
+    description: 'Base url to the controller'
+    required: true
+  root-token:
+    description: 'Root Token for authentication in the Anka Controller'
+    required: false
+  https-agent-ca:
+    description: 'Root certificate (needed if cert is self-signed)'
+    required: false
+  https-agent-cert:
+    description: 'Certificate'
+    required: false
+  https-agent-cert-passphrase:
+    description: 'Certificate passphrase'
+    required: false
+  https-agent-key:
+    description: 'Private key'
+    required: false
+  https-agent-skip-cert-verify:
+    description: 'Whether to skip controllers certificate verification'
+    required: false
+    default: 'false'
+
+  # Timeouts
+  poll-delay:
+    description: 'Sleep delay (in seconds) between the HTTP requests to the Controller API'
+    required: false
+    default: '5'
+  hard-timeout:
+    description: 'Time interval (in seconds) after which job will be forced to stop (fails with an error)'
+    required: false
+    # 12 hours
+    default: '43200'
+
+  # VM instance
+  group-id:
+    description: 'Node group id'
+    required: false
+  node-id:
+    description: 'Node id'
+    required: false
+  vcpu:
+    description: 'vcpu count'
+    required: false
+  vram:
+    description: 'vram (MB) amount'
+    required: false
+
+outputs:
+  action-id:
+    description: 'This is a unique action identifier, it will be set as an External ID in the VM and also as a label on the created Github action runner'
 runs:
   using: 'node16'
   main: 'dist/index.js'
