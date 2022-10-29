@@ -149,19 +149,13 @@ async function parseParams(): Promise<ActionParams> {
   if (hardTimeout < 0)
     throw new Error('hard-timeout must be greater then or equal to 0')
 
-  const ghRepository = core.getInput('gh-repository', {required: true})
-  const parts = ghRepository.split('/')
-
-  if (parts.length !== 2) {
-    throw new Error(`failed to parse Github owner/repo: ${ghRepository}`)
-  }
-
-  const ghOwner = ghRepository.split('/')[0]
-  const ghRepo = ghRepository.split('/')[1]
+  const ghOwner = core.getInput('gh-owner', {required: true})
 
   const params: ActionParams = {
     ghOwner,
-    ghRepo,
+    ghRepo: core
+      .getInput('gh-repository', {required: true})
+      .replace(`${ghOwner}/`, ''),
     ghPAT: core.getInput('gh-pat', {required: true}),
 
     templateId: core.getInput('template-id', {required: true}),

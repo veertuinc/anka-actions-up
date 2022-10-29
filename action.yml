@@ -3,6 +3,10 @@ description: 'Spins up new VM instance in Anka Controller with Github action run
 author: 'Veertu Inc.'
 inputs:
   # Github
+  gh-owner:
+    description: 'GitHub repository owner'
+    required: false
+    default: ${{ github.repository_owner }}
   gh-repository:
     description: 'GitHub repository to create action runner'
     required: false
