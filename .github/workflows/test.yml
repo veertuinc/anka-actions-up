@@ -1,5 +1,5 @@
 name: 'build-test'
-on: # rebuild any PRs and main branch changes
+on:
   pull_request:
   workflow_dispatch:
   push:
@@ -8,7 +8,7 @@ on: # rebuild any PRs and main branch changes
       - 'releases/*'
 
 jobs:
-  build: # make sure build/ci work properly
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,129 +16,3 @@ jobs:
           npm install
       - run: |
           npm run all
-  action-up: # make sure the action works on a clean machine without building
-    runs-on: ubuntu-latest
-    outputs:
-      action-id: ${{ steps.action-up.outputs.action-id }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./
-        id: action-up
-        with:
-          hard-timeout: 60
-#          group-id: 'nogroup'
-          gh-pat: ${{ secrets.ARTURS_PAT }}
-          template-id: '4c641deb-9822-4718-a757-5775799d9bc8'
-          node-id: 'f9673afe-dc07-4683-b625-2bbf9f35f566'
-          base-url: 'https://18.198.188.108:443'
-          root-token: '{123123123}'
-          https-agent-skip-cert-verify: true
-#          https-agent-ca: |
-#            -----BEGIN CERTIFICATE-----
-#            MIIDTzCCAjegAwIBAgIUQr+DfJKZH5H+e28UQ5a3TvaTzLQwDQYJKoZIhvcNAQEL
-#            BQAwNzEQMA4GA1UECgwHTXlHcm91cDESMBAGA1UECwwJTXlPcmdVbml0MQ8wDQYD
-#            VQQDDAZNeVVzZXIwHhcNMjIwOTI2MTAxODIxWhcNMjMwOTI2MTAxODIxWjA3MRAw
-#            DgYDVQQKDAdNeUdyb3VwMRIwEAYDVQQLDAlNeU9yZ1VuaXQxDzANBgNVBAMMBk15
-#            VXNlcjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIgQ6hGHM5t02kSU
-#            qJVB6oVPhi7zPA+L1jFKjBQw19vSLM/URLgpKge+yE3DXef6WAMSfoe9T+GZwjcP
-#            xkWsi9OaISZWCREhqEukJShgV9ksN79OYvbm0azv/XstiVa04bkVkW1OcQ6KPIlp
-#            yjJ63X0ng9F8Jr7OmIz/Zw8FxoTrYBy7O2aOZfacAFnPoucio4fb0ULaVEaQq3Hr
-#            1SFhzK6i4fGtiJAhOCg76CyCUv8xZoaUEbpNh+VBonPhKx7ubY+cMPVA2Z3x9c5e
-#            2IviYi9ZbD7FEL+IVH6eldLuglQowhU01ZZ5xtKM9Pog1dkCpttfIOKi2efkt3AP
-#            dBleHOcCAwEAAaNTMFEwHQYDVR0OBBYEFCVjY1CuM41U6tieaUien1q4SlMkMB8G
-#            A1UdIwQYMBaAFCVjY1CuM41U6tieaUien1q4SlMkMA8GA1UdEwEB/wQFMAMBAf8w
-#            DQYJKoZIhvcNAQELBQADggEBAFqeQ93Uo9+PlC15iRoRNWtNoCkozYdUDxf8xzxL
-#            Ng6OmL43UAcM8SEEyy0BDClmZNFdyRyYb9btHbAay7fp+f/ogOYwEezzefFsSuAf
-#            Fik2HxY4TDzu4NwilVRmsbbznN6z74xzysoMmtphHfcKjvcbRVCB33wEwl8fMp+T
-#            ZvMjv/zBl2d9VQ3UNqQnjQeWqvcSXSOb7UIcXAIWpA2dhFxu+5GBWCXgE0N6ESZu
-#            4Lfb06K+DiY50aqQrVuCzcDWPXvJpGSN/RD9Yday780lj0/KIT54J8z/3Sf/7bJ3
-#            H6vMbO2p4XiGe/YNUHnC6huyeXIUXpsdiIRkgv2CcaH5PNc=
-#            -----END CERTIFICATE-----
-#          https-agent-cert: |
-#            -----BEGIN CERTIFICATE-----
-#            MIIETzCCAzegAwIBAgIUDQH+IYhuKajreldTnRo5Dh5hwzwwDQYJKoZIhvcNAQEL
-#            BQAwNzEQMA4GA1UECgwHTXlHcm91cDESMBAGA1UECwwJTXlPcmdVbml0MQ8wDQYD
-#            VQQDDAZNeVVzZXIwHhcNMjIwOTI2MTAxOTQyWhcNMjMwOTI2MTAxOTQyWjA3MRAw
-#            DgYDVQQKDAdNeUdyb3VwMRIwEAYDVQQLDAlNeU9yZ1VuaXQxDzANBgNVBAMMBk15
-#            VXNlcjCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAKs8Ktm34EPgprxT
-#            /YrpzaCZ65SQo/YDPQijb73IYCgbhWSmN9QNVfuN886C9kQsWxlrxkYbRXmdTrHq
-#            IhHiExJwdLYr4jN0cB+4+3wCGvs+MRXCZS9vLavgpqo68dQygMIHIX0ckEigF62p
-#            F5Q4JXTB1LursivvnQeee31JxuKtzXNOqpHPXX6ccM9Retq9s/zWmzmTwNK7WsFe
-#            26qnmlAlTgOy8s0mehxvjROZZpHCf2ryNerzRUDE2P13tOY2xjehw610f1ij1PC8
-#            dqLrDpHZeizQZhLjqWP4iKfmdXYgBaw0vgX0iby2Rw66BlVpU+HO8W7LDjrzGy6V
-#            FURMfW1s/eC+4bDLRaETbavMHlp5pnOsv7N4u1kqImPzT8Gcrzve2b3rCJUnjTeb
-#            MUUWjeeisqp/l74/oKN2koGU1VtOGCruNgKlgW71jfKzkQ/r/Y0oJkiWLzVPjpj1
-#            eOjIWjEBzPoFH5+CTEMwBxSxN2PJFhgpAlRwrt5+lDVc43treDp4RrsCiyE1QRlk
-#            jumKEL2PAkuSxbLm5rJRf7CRG8ls6Pw7XLEKMzEmxUsH18iPhOIy4aJcl+QPmPK+
-#            3erdJtyVK1YyChe8mkeJ/UiGT551F2fqBQBwgFfynSUPlNGXQYyeO47ANTtlV06B
-#            pjwCL5qhlYNCBWtTu2Nohid0J/V3AgMBAAGjUzBRMA8GA1UdEQQIMAaHBBLGvGww
-#            HQYDVR0OBBYEFOvXgjkrY6wRLKsDpeDcqHvLJsWNMB8GA1UdIwQYMBaAFCVjY1Cu
-#            M41U6tieaUien1q4SlMkMA0GCSqGSIb3DQEBCwUAA4IBAQAzAlYtw9jNrwpAMXC2
-#            neozwZ7dl8ypES5IjFGa1nr4FjtIztcPy9df8MOGOPHB4k/CBAOBCV6Sz1vKMRKU
-#            5sRqkmDG17tiBXME92aM+xlzB8pK0G3QBhU+Y9rLzme2n0uLsZ5Qrn41Vkto78As
-#            M+H1Ps/Wxwt9yKIGlRB4VTJm5jiUmAIDx8CtNPPiKH7okui2wnZzOPt0zWC+6z0y
-#            pX8tRgZ+70Czj5tf4EuW43ekxNBRyLVpsn3F2d/OxOrSwcP2Qt6Gwuwx1qpCyAkH
-#            IIf5XBR58a3PaS1aWN7krtPk1iUyPqo9VXG6GWInIcE/YJlYNeD5295IACzZ9Qmk
-#            a3oX
-#            -----END CERTIFICATE-----
-#          https-agent-key: |
-#            -----BEGIN PRIVATE KEY-----
-#            MIIJQQIBADANBgkqhkiG9w0BAQEFAASCCSswggknAgEAAoICAQCrPCrZt+BD4Ka8
-#            U/2K6c2gmeuUkKP2Az0Io2+9yGAoG4VkpjfUDVX7jfPOgvZELFsZa8ZGG0V5nU6x
-#            6iIR4hMScHS2K+IzdHAfuPt8Ahr7PjEVwmUvby2r4KaqOvHUMoDCByF9HJBIoBet
-#            qReUOCV0wdS7q7Ir750Hnnt9Scbirc1zTqqRz11+nHDPUXravbP81ps5k8DSu1rB
-#            Xtuqp5pQJU4DsvLNJnocb40TmWaRwn9q8jXq80VAxNj9d7TmNsY3ocOtdH9Yo9Tw
-#            vHai6w6R2Xos0GYS46lj+Iin5nV2IAWsNL4F9Im8tkcOugZVaVPhzvFuyw468xsu
-#            lRVETH1tbP3gvuGwy0WhE22rzB5aeaZzrL+zeLtZKiJj80/BnK873tm96wiVJ403
-#            mzFFFo3norKqf5e+P6CjdpKBlNVbThgq7jYCpYFu9Y3ys5EP6/2NKCZIli81T46Y
-#            9XjoyFoxAcz6BR+fgkxDMAcUsTdjyRYYKQJUcK7efpQ1XON7a3g6eEa7AoshNUEZ
-#            ZI7pihC9jwJLksWy5uayUX+wkRvJbOj8O1yxCjMxJsVLB9fIj4TiMuGiXJfkD5jy
-#            vt3q3SbclStWMgoXvJpHif1Ihk+edRdn6gUAcIBX8p0lD5TRl0GMnjuOwDU7ZVdO
-#            gaY8Ai+aoZWDQgVrU7tjaIYndCf1dwIDAQABAoICAAp22dOGRiE/yFC3/UWQ9iz7
-#            WwcwM6TkG8W8XybE6QNqcyNsePrvebKuwRh8rloKL+ME0BAWuI8vCtEaksxu+WVm
-#            E+vSELe+RN/baRrx8f4qlctTnuVgMPVQ/D5o7cBe+blhwC0qIrMdfXTyYWuAZuGU
-#            utBhNLk0om8Fw1wrtwjBQE3sn8XbW0ZSfx5cR1q4vxgTcVb6bY0zP9+TUW9DYM3H
-#            CdZ2CBp7YHj+ZCuvczIzJaA+fwcFqNTFctFCkH6FGGXr785Y0TN0h53SlplsLe7B
-#            0JKOhb5fxUlDte40yjbWzCHy8y3f/M7YgM0olxx/HE4vXFe99vepRZ76I1uSJRQC
-#            HOiDlcz7lXnYEvFipYgK6ZEJXyM2vH0+r3/s9cL/b2fWrjZasFWHaUPK8WMpnYWQ
-#            IlRZqLqx5YweAxgfars/j7KJC6qdOsKIf+hPm2NqRhq/fHv/yIxDlFICcxEPd0Zh
-#            oH5g4U/H+Xq4zLTvRUtaRj7s3R5PEyUjJ8Fvo3nzmYt5tFJ1sejYUWu1/l8Exkiq
-#            T0a10CtY7tFFMTEz5vYXGoZeVjnMZ6AqKtHindP5r+zXJeZU2SFeBqd5LNzqChE2
-#            BqhfVR5ndm9HQpLFCGzVzMhR7oq7F51VAfbQUF7mCEe0dJ035NPKtrkW/p2pPI3F
-#            ZPVDOOAIKBxAOaxkDIspAoIBAQC9C5NGV6WXreQHB0bgIk+wdMmB2pC3ZDElw/pj
-#            XpgrK6tckBJokQrjqxWHHYthIQN/ON4+p6U9UYt9dkMqR6bg2FG2kCEwQxbfqh8p
-#            5z5wbUIr0yMtYyrSSZIqBxKlkgFe9lwVxl6BPsqlXQsPruMMxdWWY1BThwYtYg/a
-#            /gLwWZ3JJWuPjHwHz7Kvf7wiKyjKAm66kIbc9crNbWGMoz4RX3wheKVP8+bdZXxc
-#            2mXP4ntyRZiBJ4v5EJHgO++Izd0PIe/tUh/Q8HtxgJaiDs+P8HYUd6d5k4FRv3V2
-#            Emu38/7Q7AZzgz4DEDbM7XeGqMkI4033v+wptUNUJB5U57CVAoIBAQDn4cVq1xhY
-#            MItIj/oS2nClbHl24oqiKprvKeUXJy1Ud+ndHW9d/Q4mC7to0tb74q88F4WPCwyh
-#            5ucqkirzq+V/qXA2jGX4k08evyX2OAoCdzweUMAD1Qz5XXhlO0ewFn96g0PIogRD
-#            AGL7lWiNxGuKrFssyyx/wV4VLod4wuqCcEwQnwfbi1zejHADWy114D9l9DpanMa4
-#            DIE+Pb/EOH81ZsL4bC/dsh5CR7TAnPTWRLmGNAKFwaL+DMn3F7eEOZjtBTgeZirk
-#            QkNj273/aCCicajbDt8HREED/LLXgATxkpq7ErOKgMqYxMWmjOBccp6Xb16iiUy6
-#            qoBzHgyXbM7bAoIBABsC0GQ4mbx2aCJo88OKo4A+75vSMuNBOZR/0ALqvStN7gon
-#            u7mdH8Uv6L+JhSS3ptxCr96b7Yw5XojqoOYlnr55qhM/vL48l8QVdqZyGAXQVqgU
-#            Xu5ZQQES6gN/RzbJCdEbukSSN2aYJjRCexYekup8SexW/F8y57sMS9+qc5kL9POM
-#            mTXFiONE1e8lfSgUqptShae6hsqDhBqeClYh7PhmgEH4DwbBfrcbjQ1nVyzA24qU
-#            TxoFIIbRy0YSykLtxywmWTW7ijg8ZCbvjJZTL20NmpGKFy/T16JqjMn2D9YU0s/f
-#            KXzPv8iIRIw7Udy3uSG/+J/xmDjNYXVgQ8U15ZECggEAS02bkgXGRyWEpgzztlmw
-#            CVi/3WbWhLF3XUHqvukfJHZIwWEEwK4kgSCAPRtza5uDMu2klv6MnKti2QVc44Mo
-#            ZZv98AkKOH6GTELhLiOmxIQ6RtIMeXIf43+CUMW+kyXLQlsMkURkQ+oFOxSbPqbS
-#            EdfFSDe2/MosJo7Uudf61l9npGIw6BBLGY7b9YsPqV8o15BHvxN4yV5uPmtJMozy
-#            asIzgP+JT+K/RuEIhyCxtj/dTALp6swmhYBbul2+YDdgPWDbh6vANB58yhobiq0j
-#            I/3rSzB6J174CjZvUeKmOFlW3HfHTKxkntYQJfVMC1nBvQYS4o/aFii2zCuvBSH1
-#            zwKCAQAkvkryKTsdrONUmXdv12NK1/KwoYAQXhkN4cImuNRUuBTTkHYrr4jHiLHe
-#            xngzzPGr7ceAfX/d+PMv6oN+67y7qdNqaip9+saTqQdkcyMcUh4NvnJJzQ3C0p/5
-#            pSoLEhAU3ouQWOLN7JHVH1bqLfriF+nbuKd7hJQKcomyxkvnTJVZ6zlWmKrec566
-#            p6NQnAkUnKOW6daKX44HRmc0wPuC5nJBNtKQow6vkYwoAFnflJtmNWnlr4IFzicl
-#            Ev6ASZddE0FJ0mpMA+NI54lS+2e3OF7hXTdQmnMOka/TMm6q+ksJIzO4RQbJCCI8
-#            jyRTcs5idHg8FzX6BAyWo9do+sDt
-#            -----END PRIVATE KEY-----
-
-  report-action-id:
-    if: always()
-    needs: [ action-up ]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "action-id ${{ needs.action-up.outputs.action-id }}"
-        shell: bash
