@@ -130,7 +130,7 @@ async function doAction(params: ActionParams): Promise<void> {
   let runnerId: number | null = null
   logInfo(`[Action Runner] waiting for the Github action runner to register...`)
   do {
-    runnerId = await runner.getRunnerByActionId(actionId)
+    runnerId = await runner.getRunnerByName(actionId)
     if (runnerId === null) {
       logInfo(`[Action Runner] has not yet been registered`)
       await sleep(params.pollDelay * 1000)

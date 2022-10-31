@@ -108,7 +108,7 @@ function doAction(params) {
         let runnerId = null;
         (0, anka_actions_common_1.logInfo)(`[Action Runner] waiting for the Github action runner to register...`);
         do {
-            runnerId = yield runner.getRunnerByActionId(actionId);
+            runnerId = yield runner.getRunnerByName(actionId);
             if (runnerId === null) {
                 (0, anka_actions_common_1.logInfo)(`[Action Runner] has not yet been registered`);
                 yield (0, anka_actions_common_1.sleep)(params.pollDelay * 1000);
@@ -4526,13 +4526,13 @@ class Runner {
         this.owner = owner;
         this.repo = repo;
     }
-    getRunnerByActionId(actionId) {
+    getRunnerByName(name) {
         return __awaiter(this, void 0, void 0, function* () {
             const runnerListResp = yield this.octokit.actions.listSelfHostedRunnersForRepo({
                 owner: this.owner,
                 repo: this.repo
             });
-            const found = runnerListResp.data.runners.filter(runner => runner.name === actionId);
+            const found = runnerListResp.data.runners.filter(runner => runner.name === name);
             if (found.length) {
                 return found[0].id;
             }
