@@ -108,6 +108,7 @@ Configuring VM template:
           template-tag: 'template tag'
           group-id: 'anka node group'
           node-id: 'anka node id'
+          # NOTE: using "vcpu" and "vram" requires the stored template to be in stopped state
           vcpu: 'number of CPUs'
           vram: 'amount of RAM in megabytes'
 ```
