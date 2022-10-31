@@ -84,7 +84,7 @@ function doAction(params) {
             vram: params.vram,
             group_id: params.group_id,
             node_id: params.node_id,
-            startup_script: Buffer.from(`cd ${params.templateRunnerDir} \
+            startup_script: Buffer.from(`123123123123cd ${params.templateRunnerDir} \
   && ./config.sh --url "${repoUrl}" --token "${token}" --labels "${actionId}" --runnergroup "Default" --name "${actionId}" --work "_work" \
   && ./svc.sh install \
   && ./svc.sh start`, 'binary').toString('base64'),

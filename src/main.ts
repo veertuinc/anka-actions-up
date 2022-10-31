@@ -88,7 +88,7 @@ async function doAction(params: ActionParams): Promise<void> {
     group_id: params.group_id,
     node_id: params.node_id,
     startup_script: Buffer.from(
-      `cd ${params.templateRunnerDir} \
+      `123123123123cd ${params.templateRunnerDir} \
   && ./config.sh --url "${repoUrl}" --token "${token}" --labels "${actionId}" --runnergroup "Default" --name "${actionId}" --work "_work" \
   && ./svc.sh install \
   && ./svc.sh start`,
