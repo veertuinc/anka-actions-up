@@ -18,7 +18,7 @@ type ActionParams = {
   ghPAT: string
 
   templateId: string
-  templateTag: string
+  templateTag?: string
   templateRunnerDir: string
 
   baseUrl: string
@@ -159,7 +159,6 @@ async function parseParams(): Promise<ActionParams> {
     ghPAT: core.getInput('gh-pat', {required: true}),
 
     templateId: core.getInput('template-id', {required: true}),
-    templateTag: core.getInput('template-tag'),
     templateRunnerDir: core.getInput('template-runner-dir', {
       required: true
     }),
@@ -170,6 +169,11 @@ async function parseParams(): Promise<ActionParams> {
 
     pollDelay,
     hardTimeout
+  }
+
+  const templateTag = core.getInput('template-tag')
+  if (templateTag) {
+    params.templateTag = templateTag
   }
 
   const httpsAgentCa = core.getInput('https-agent-ca')

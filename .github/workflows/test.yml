@@ -26,7 +26,6 @@ jobs:
 #          group-id: 'nogroup'
           gh-pat: ${{ secrets.ARTURS_PAT }}
           template-id: '4c641deb-9822-4718-a757-5775799d9bc8'
-          template-tag: 'latest'
           node-id: 'f9673afe-dc07-4683-b625-2bbf9f35f566'
           base-url: 'https://18.198.188.108:443'
           root-token: '{123123123}'
