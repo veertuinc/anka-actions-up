@@ -41,6 +41,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const crypto = __importStar(__nccwpck_require__(6113));
+const rest_1 = __nccwpck_require__(5375);
 const anka_actions_common_1 = __nccwpck_require__(3347);
 (function main() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -72,7 +73,7 @@ const anka_actions_common_1 = __nccwpck_require__(3347);
 function doAction(params) {
     return __awaiter(this, void 0, void 0, function* () {
         const actionId = crypto.randomUUID();
-        const runner = new anka_actions_common_1.Runner(params.ghPAT, params.ghOwner, params.ghRepo);
+        const runner = new anka_actions_common_1.Runner(new rest_1.Octokit({ auth: params.ghPAT }), params.ghOwner, params.ghRepo);
         const token = yield runner.createToken();
         const vm = new anka_actions_common_1.VM(params.baseUrl, params.rootToken, params.httpsAgentCa, params.httpsAgentCert, params.httpsAgentKey, params.httpsAgentPassphrase, params.httpsAgentSkipCertVerify);
         const repoUrl = `https://github.com/${params.ghOwner}/${params.ghRepo}`;
@@ -4369,7 +4370,7 @@ class VM {
                     if (response.data.body.startup_script) {
                         errorMsg = `${errorMsg}: ${response.data.body.startup_script.stderr}`;
                     }
-                    throw new Error(errorMsg);
+                    throw new Error(errorMsg.trim());
                 }
                 return response.data.body.instance_state;
             }
@@ -4504,7 +4505,7 @@ __exportStar(__nccwpck_require__(6404), exports);
 /***/ }),
 
 /***/ 6663:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
 
@@ -4519,10 +4520,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Runner = void 0;
-const rest_1 = __nccwpck_require__(5375);
 class Runner {
-    constructor(auth, owner, repo) {
-        this.octokit = new rest_1.Octokit({ auth });
+    constructor(octokit, owner, repo) {
+        this.octokit = octokit;
         this.owner = owner;
         this.repo = repo;
     }
