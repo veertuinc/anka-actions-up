@@ -67,9 +67,7 @@ async function doAction(params: ActionParams): Promise<void> {
   const actionId = crypto.randomUUID()
   const runner = new Runner(params.ghPAT, params.ghOwner, params.ghRepo)
   const token = await runner.createToken()
-  logInfo(
-    `[VM] starting new instance with \u001b[40;1m External ID \u001b[33m${actionId} \u001b[0m`
-  )
+
   const vm = new VM(
     params.baseUrl,
     params.rootToken,
@@ -100,6 +98,10 @@ async function doAction(params: ActionParams): Promise<void> {
     script_fail_handler: 1,
     external_id: actionId
   }
+
+  logInfo(
+    `[VM] starting new instance with \u001b[40;1m External ID \u001b[33m${actionId} \u001b[0m`
+  )
   const instanceId = await vm.start(
     actionId,
     repoUrl,
@@ -107,6 +109,8 @@ async function doAction(params: ActionParams): Promise<void> {
     params.templateRunnerDir,
     vmConfig
   )
+
+  core.setOutput('action-id', actionId)
 
   let vmState
   logInfo(`[VM] waiting for the VM instance to start...`)
@@ -131,8 +135,6 @@ async function doAction(params: ActionParams): Promise<void> {
       )
     }
   } while (runnerId === null)
-
-  core.setOutput('action-id', actionId)
 }
 
 async function parseParams(): Promise<ActionParams> {
