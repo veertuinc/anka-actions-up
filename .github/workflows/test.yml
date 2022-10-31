@@ -1,6 +1,7 @@
 name: 'build-test'
 on: # rebuild any PRs and main branch changes
   pull_request:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -15,12 +16,14 @@ jobs:
           npm install
       - run: |
           npm run all
-  test: # make sure the action works on a clean machine without building
+  action-up: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
+    outputs:
+      action-id: ${{ steps.action-up.outputs.action-id }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./
-        id: request
+        id: action-up
         with:
           hard-timeout: 60
 #          group-id: 'nogroup'
@@ -132,5 +135,10 @@ jobs:
 #            jyRTcs5idHg8FzX6BAyWo9do+sDt
 #            -----END PRIVATE KEY-----
 
-      - run: echo "action-id ${{ steps.request.outputs.action-id }}"
+  report-action-id:
+    if: always()
+    needs: [ action-up ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "action-id ${{ needs.action-up.outputs.action-id }}"
         shell: bash

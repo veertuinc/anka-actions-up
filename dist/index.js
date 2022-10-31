@@ -74,7 +74,6 @@ function doAction(params) {
         const actionId = crypto.randomUUID();
         const runner = new anka_actions_common_1.Runner(params.ghPAT, params.ghOwner, params.ghRepo);
         const token = yield runner.createToken();
-        (0, anka_actions_common_1.logInfo)(`[VM] starting new instance with \u001b[40;1m External ID \u001b[33m${actionId} \u001b[0m`);
         const vm = new anka_actions_common_1.VM(params.baseUrl, params.rootToken, params.httpsAgentCa, params.httpsAgentCert, params.httpsAgentKey, params.httpsAgentPassphrase, params.httpsAgentSkipCertVerify);
         const repoUrl = `https://github.com/${params.ghOwner}/${params.ghRepo}`;
         const vmConfig = {
@@ -93,7 +92,9 @@ function doAction(params) {
             script_fail_handler: 1,
             external_id: actionId
         };
+        (0, anka_actions_common_1.logInfo)(`[VM] starting new instance with \u001b[40;1m External ID \u001b[33m${actionId} \u001b[0m`);
         const instanceId = yield vm.start(actionId, repoUrl, token, params.templateRunnerDir, vmConfig);
+        core.setOutput('action-id', actionId);
         let vmState;
         (0, anka_actions_common_1.logInfo)(`[VM] waiting for the VM instance to start...`);
         do {
@@ -115,7 +116,6 @@ function doAction(params) {
                 (0, anka_actions_common_1.logInfo)(`[Action Runner] with \u001b[40;1m name \u001b[33m${actionId} \u001b[0m and \u001b[40;1m id \u001b[33m${runnerId} \u001b[0m has been registered`);
             }
         } while (runnerId === null);
-        core.setOutput('action-id', actionId);
     });
 }
 function parseParams() {
