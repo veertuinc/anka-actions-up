@@ -24,9 +24,20 @@ The rest are optional!
       - uses: veertuinc/anka-actions-up@v1
         with:
           # ...
-          https-agent-cert: ${{ secrets.YOUR_CERTIFICATE }}
-          https-agent-cert-passphrase: ${{ secrets.YOUR_CERTIFICATE_PASSPHRASE }}
-          https-agent-key: ${{ secrets.YOUR_KEY }}
+          auth-cert: |
+            -----BEGIN CERTIFICATE-----
+            MIIETzCCAzegAwIBAgIUDQH+IYhuKajreldTnRo5Dh5hwzwwDQYJKoZIhvcNAQEL
+            # ...
+            IIf5XBR58a3PaS1aWN7krtPk1iUyPqo9VXG6GWInIcE/YJlYNeD5295IACzZ9Qmk
+            a3oX
+            -----END CERTIFICATE-----
+          auth-cert-passphrase: 'secret'
+          auth-cert-key: |
+            -----BEGIN PRIVATE KEY-----
+            MIIJQQIBADANBgkqhkiG9w0BAQEFAASCCSswggknAgEAAoICAQCrPCrZt+BD4Ka8
+            # ...
+            jyRTcs5idHg8FzX6BAyWo9do+sDt
+            -----END PRIVATE KEY-----
 ```
 
 #### Authenticating with self-signed certificates
