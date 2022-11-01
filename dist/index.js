@@ -1,7 +1,7 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 3109:
+/***/ 9139:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -39,43 +39,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parseParams = exports.doAction = void 0;
 const core = __importStar(__nccwpck_require__(2186));
-const crypto = __importStar(__nccwpck_require__(6113));
-const rest_1 = __nccwpck_require__(5375);
 const anka_actions_common_1 = __nccwpck_require__(3347);
-(function main() {
+function doAction(actionId, runner, vm, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const params = yield parseParams();
-            if (params.hardTimeout > 0) {
-                yield Promise.race([
-                    (0, anka_actions_common_1.timeout)(params.hardTimeout * 1000, 'hard-timeout exceeded'),
-                    doAction(params)
-                ]);
-            }
-            else {
-                yield doAction(params);
-            }
-        }
-        catch (error) {
-            let message;
-            if (error instanceof Error)
-                message = error.message;
-            else
-                message = String(error);
-            core.setFailed(message);
-            if (error instanceof anka_actions_common_1.HardTimeoutError) {
-                process.exit(1);
-            }
-        }
-    });
-})();
-function doAction(params) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const actionId = crypto.randomUUID();
-        const runner = new anka_actions_common_1.Runner(new rest_1.Octokit({ auth: params.ghPAT }), params.ghOwner, params.ghRepo);
         const token = yield runner.createToken();
-        const vm = new anka_actions_common_1.VM(params.baseUrl, params.rootToken, params.httpsAgentCa, params.httpsAgentCert, params.httpsAgentKey, params.httpsAgentPassphrase, params.httpsAgentSkipCertVerify);
         const repoUrl = `https://github.com/${params.ghOwner}/${params.ghRepo}`;
         const vmConfig = {
             count: 1,
@@ -119,13 +88,14 @@ function doAction(params) {
         } while (runnerId === null);
     });
 }
+exports.doAction = doAction;
 function parseParams() {
     return __awaiter(this, void 0, void 0, function* () {
         const pollDelay = parseInt(core.getInput('poll-delay', { required: true }), 10);
-        if (pollDelay <= 0)
+        if (isNaN(pollDelay) || pollDelay <= 0)
             throw new Error('poll-delay must be positive integer');
         const hardTimeout = parseInt(core.getInput('hard-timeout', { required: true }), 10);
-        if (hardTimeout < 0)
+        if (isNaN(hardTimeout) || hardTimeout < 0)
             throw new Error('hard-timeout must be greater then or equal to 0');
         const ghOwner = core.getInput('gh-owner', { required: true });
         const params = {
@@ -170,14 +140,14 @@ function parseParams() {
         const vcpu = core.getInput('vcpu');
         if (vcpu) {
             const vcpuNum = parseInt(vcpu, 10);
-            if (vcpuNum <= 0)
+            if (isNaN(vcpuNum) || vcpuNum <= 0)
                 throw new Error('vcpu must be positive integer');
             params.vcpu = vcpuNum;
         }
         const vram = core.getInput('vram');
         if (vram) {
             const vramNum = parseInt(vram, 10);
-            if (vramNum <= 0)
+            if (isNaN(vramNum) || vramNum <= 0)
                 throw new Error('vram must be positive integer');
             params.vram = vramNum;
         }
@@ -193,6 +163,87 @@ function parseParams() {
         return params;
     });
 }
+exports.parseParams = parseParams;
+
+
+/***/ }),
+
+/***/ 3109:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const rest_1 = __nccwpck_require__(5375);
+const crypto_1 = __importDefault(__nccwpck_require__(6113));
+const action_1 = __nccwpck_require__(9139);
+const anka_actions_common_1 = __nccwpck_require__(3347);
+(function main() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const actionId = crypto_1.default.randomUUID();
+            const params = yield (0, action_1.parseParams)();
+            const runner = new anka_actions_common_1.Runner(new rest_1.Octokit({ auth: params.ghPAT }), params.ghOwner, params.ghRepo);
+            const vm = new anka_actions_common_1.VM(params.baseUrl, params.rootToken, params.httpsAgentCa, params.httpsAgentCert, params.httpsAgentKey, params.httpsAgentPassphrase, params.httpsAgentSkipCertVerify);
+            if (params.hardTimeout > 0) {
+                yield Promise.race([
+                    (0, anka_actions_common_1.timeout)(params.hardTimeout * 1000, 'hard-timeout exceeded'),
+                    (0, action_1.doAction)(actionId, runner, vm, params)
+                ]);
+            }
+            else {
+                yield (0, action_1.doAction)(actionId, runner, vm, params);
+            }
+        }
+        catch (error) {
+            let message;
+            if (error instanceof Error)
+                message = error.message;
+            else
+                message = String(error);
+            core.setFailed(message);
+            if (error instanceof anka_actions_common_1.HardTimeoutError) {
+                process.exit(1);
+            }
+        }
+    });
+})();
 
 
 /***/ }),

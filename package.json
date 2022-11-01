@@ -25,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0",
+    "@types/jest": "^29.2.1",
     "anka-actions-common": "github:veertuinc/anka-actions-common"
   },
   "devDependencies": {
