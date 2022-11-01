@@ -37,19 +37,19 @@ inputs:
   https-agent-ca:
     description: 'Root certificate (needed if cert is self-signed)'
     required: false
-  https-agent-cert:
-    description: 'Certificate'
-    required: false
-  https-agent-cert-passphrase:
-    description: 'Certificate passphrase'
-    required: false
-  https-agent-key:
-    description: 'Private key'
-    required: false
   https-agent-skip-cert-verify:
     description: 'Whether to skip controllers certificate verification'
     required: false
     default: 'false'
+  auth-cert:
+    description: 'Certificate to use for communication with the Controller\'s Cert Auth feature'
+    required: false
+  auth-cert-key:
+    description: 'Private key to use for communication with the Controller\'s Cert Auth feature'
+    required: false
+  auth-cert-passphrase:
+    description: 'Auth Certificate\'s passphrase'
+    required: false
 
   # Timeouts
   poll-delay:
