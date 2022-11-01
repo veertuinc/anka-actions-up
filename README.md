@@ -1,5 +1,12 @@
 # anka-actions-down
 # Use cases
+
+## Prerequesites
+
+1. Install the github runner inside of your VM. This can be done with [our installation script](https://github.com/veertuinc/anka-actions-connect/blob/main/install.sh)
+2. Add your Github [PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and add it to your repo under [https://github.com/{USER/ORG}/{REPONAME}/settings/secrets/actions]. Your PAT should have "repo" if using classic tokens. Fine-grained are not supported at the time of writing this.
+3. 
+
 ## Connecting to a controller
 There are only 3 required parameters:
 - `gh-pat` stand for Github personal access token (requires `repo` scope in order to be able to create/remove self-hosted runners in the repository).

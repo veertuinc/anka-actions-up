@@ -42,13 +42,13 @@ inputs:
     required: false
     default: 'false'
   auth-cert:
-    description: 'Certificate to use for communication with the Controller\'s Cert Auth feature'
+    description: "Certificate to use for communication with the Controller's Cert Auth feature"
     required: false
   auth-cert-key:
-    description: 'Private key to use for communication with the Controller\'s Cert Auth feature'
+    description: "Private key to use for communication with the Controller's Cert Auth feature"
     required: false
   auth-cert-passphrase:
-    description: 'Auth Certificate\'s passphrase'
+    description: "Auth Certificate's passphrase"
     required: false
 
   # Timeouts
