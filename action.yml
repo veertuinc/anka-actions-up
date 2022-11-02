@@ -23,7 +23,7 @@ inputs:
     description: "Anka VM Template's Tag"
     required: false
   template-runner-dir:
-    description: ''
+    description: 'The directory where the runner was installed'
     required: false
     default: '/Users/anka/actions-runner'
 
@@ -42,10 +42,10 @@ inputs:
     required: false
     default: 'false'
   controller-auth-cert:
-    description: "Certificate to use for communication with the Anka Build Cloud Controller's Cert Auth feature"
+    description: "Certificate to use for authorization with the Anka Build Cloud Controller"
     required: false
   controller-auth-cert-key:
-    description: "Private key to use for communication with the Anka Build Cloud Controller's Cert Auth feature"
+    description: "Private key to use for authorization with the Anka Build Cloud Controller"
     required: false
   controller-auth-cert-passphrase:
     description: "The Auth Certificate's passphrase"
@@ -56,18 +56,18 @@ inputs:
     description: "Delay (in seconds) between the HTTP requests to the Anka Build Cloud Controller's API"
     required: false
     default: '5'
-  hard-timeout:
-    description: 'TTL (in seconds) after which job will be forced to stop (fails with an error)'
+  job-ttl:
+    description: 'TTL (in seconds) after which job will be forced to stop (fails with an error) (disable with 0)'
     required: false
     # 12 hours
     default: '43200'
 
   # VM instance
   group-id:
-    description: 'Anka Node Group ID (not name)'
+    description: 'Anka Node Group ID (not name) to target for starting the VM'
     required: false
   node-id:
-    description: 'Anka Node ID (not name)'
+    description: 'Anka Node ID (not name) to target for starting the VM'
     required: false
   vcpu:
     description: 'The vCPUs to set before starting the Anka VM'
@@ -78,7 +78,8 @@ inputs:
 
 outputs:
   action-id:
-    description: 'This is a unique action identifier, it will be set as an External ID in the VM and also as a label on the created Github action runner'
+    description: 'This is a unique action identifier, it will be set as an External ID in the VM Instance and also as a label on the created Github action runner'
+
 runs:
   using: 'node16'
   main: 'dist/index.js'

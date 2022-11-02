@@ -113,11 +113,11 @@ export async function parseParams(): Promise<ActionParams> {
     throw new Error('controller-http-poll-delay must be positive integer')
 
   const hardTimeout: number = parseInt(
-    core.getInput('hard-timeout', {required: true}),
+    core.getInput('job-ttl', {required: true}),
     10
   )
   if (isNaN(hardTimeout) || hardTimeout < 0)
-    throw new Error('hard-timeout must be greater then or equal to 0')
+    throw new Error('job-ttl must be greater then or equal to 0')
 
   const ghOwner = core.getInput('gh-owner', {required: true})
 

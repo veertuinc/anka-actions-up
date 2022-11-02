@@ -27,7 +27,7 @@ test('parse all parameters', async () => {
         return name
       case 'controller-http-poll-delay':
         return '1'
-      case 'hard-timeout':
+      case 'job-ttl':
         return '2'
       case 'vcpu':
         return '3'
@@ -64,7 +64,7 @@ test('parse pollDelay throws', async () => {
     switch (name) {
       default:
         return name
-      case 'hard-timeout':
+      case 'job-ttl':
         return '2'
     }
   })
@@ -83,7 +83,7 @@ test('parse hardTimeout throws', async () => {
     }
   })
   expect(parseParams()).rejects.toThrowError(
-    'hard-timeout must be greater then or equal to 0'
+    'job-ttl must be greater then or equal to 0'
   )
 })
 
@@ -94,7 +94,7 @@ test('parse vcpu throws', async () => {
         return name
       case 'controller-http-poll-delay':
         return '1'
-      case 'hard-timeout':
+      case 'job-ttl':
         return '2'
       case 'vcpu':
         return '0'
@@ -110,7 +110,7 @@ test('parse vram throws', async () => {
         return ''
       case 'controller-http-poll-delay':
         return '1'
-      case 'hard-timeout':
+      case 'job-ttl':
         return '2'
       case 'vram':
         return '0'
