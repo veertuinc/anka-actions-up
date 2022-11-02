@@ -24,20 +24,9 @@ The rest are optional!
       - uses: veertuinc/anka-actions-up@v1
         with:
           # ...
-          https-agent-cert: |
-            -----BEGIN CERTIFICATE-----
-            MIIETzCCAzegAwIBAgIUDQH+IYhuKajreldTnRo5Dh5hwzwwDQYJKoZIhvcNAQEL
-            # ...
-            IIf5XBR58a3PaS1aWN7krtPk1iUyPqo9VXG6GWInIcE/YJlYNeD5295IACzZ9Qmk
-            a3oX
-            -----END CERTIFICATE-----
-          https-agent-cert-passphrase: 'secret'
-          https-agent-key: |
-            -----BEGIN PRIVATE KEY-----
-            MIIJQQIBADANBgkqhkiG9w0BAQEFAASCCSswggknAgEAAoICAQCrPCrZt+BD4Ka8
-            # ...
-            jyRTcs5idHg8FzX6BAyWo9do+sDt
-            -----END PRIVATE KEY-----
+          https-agent-cert: ${{ secrets.YOUR_CERTIFICATE }}
+          https-agent-cert-passphrase: ${{ secrets.YOUR_CERTIFICATE_PASSPHRASE }}
+          https-agent-key: ${{ secrets.YOUR_KEY }}
 ```
 
 #### Authenticating with self-signed certificates
@@ -47,12 +36,7 @@ This will also require specifying root certificate with `https-agent-ca:`
       - uses: veertuinc/anka-actions-up
         with:
           # ...
-          https-agent-ca: |
-            -----BEGIN PRIVATE KEY-----
-            MIIJQQIBADANBgkqhkiG9w0BAQEFAASCCSswggknAgEAAoICAQCrPCrZt+BD4Ka8
-            # ...
-            jyRTcs5idHg8FzX6BAyWo9do+sDt
-                -----END PRIVATE KEY-----
+          https-agent-ca: ${{ secrets.YOUR_CERTIFICATE }}
 ```
 
 #### Using self-signed certificates without authentication
@@ -71,7 +55,7 @@ If you do not use HTTPS authentication you could simply add `https-agent-skip-ce
       - uses: veertuinc/anka-actions-up
         with:
           # ...
-          root-token: 'secret'
+          root-token: ${{ secrets.ROOT_TOKEN }}
 ```
 
 # Setting timeouts
