@@ -220,6 +220,7 @@ const anka_actions_common_1 = __nccwpck_require__(3347);
             const actionId = crypto_1.default.randomUUID();
             const params = yield (0, action_1.parseParams)();
             const runner = new anka_actions_common_1.Runner(new rest_1.Octokit({ auth: params.ghPAT }), params.ghOwner, params.ghRepo);
+            (0, anka_actions_common_1.logDebug)(`runner: ${JSON.stringify(runner)}`);
             const vm = new anka_actions_common_1.VM(params.baseUrl, params.rootToken, params.httpsAgentCa, params.httpsAgentCert, params.httpsAgentKey, params.httpsAgentPassphrase, params.httpsAgentSkipCertVerify);
             if (params.hardTimeout > 0) {
                 yield Promise.race([
@@ -237,6 +238,7 @@ const anka_actions_common_1 = __nccwpck_require__(3347);
                 message = error.message;
             else
                 message = String(error);
+            (0, anka_actions_common_1.logDebug)(`${JSON.stringify(error)}`);
             core.setFailed(message);
             if (error instanceof anka_actions_common_1.HardTimeoutError) {
                 process.exit(1);
