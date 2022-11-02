@@ -1,5 +1,5 @@
-name: 'Anka action up'
-description: 'Spins up new VM instance in Anka Controller with Github action runner in it'
+name: 'anka-actions-up'
+description: 'Spins up new Anka VM Instance through your Anka Build Cloud Controller.'
 author: 'Veertu Inc.'
 inputs:
   # Github
@@ -8,7 +8,7 @@ inputs:
     required: false
     default: ${{ github.repository_owner }}
   gh-repository:
-    description: 'GitHub repository to create action runner'
+    description: 'GitHub repository the github action runner will be attached to'
     required: false
     default: ${{ github.repository }}
   gh-pat:
@@ -17,10 +17,10 @@ inputs:
 
   # Template
   template-id:
-    description: 'Id of the template in the Anka Controller'
+    description: 'UUID of the Anka VM Template in the Anka Build Cloud Registry'
     required: true
   template-tag:
-    description: 'Tag of the template in the Anka Controller'
+    description: "Anka VM Template's Tag"
     required: false
   template-runner-dir:
     description: ''
@@ -28,52 +28,52 @@ inputs:
     default: '/Users/anka/actions-runner'
 
   # Connection
-  base-url:
-    description: 'Base url to the controller'
+  controller-url:
+    description: "The Anka Build Cloud Controller's URL to communicate with"
     required: true
-  root-token:
-    description: 'Root Token for authentication in the Anka Controller'
+  controller-root-token:
+    description: "Anka Build Cloud Controller's Root Token used for authentication"
     required: false
-  https-agent-ca:
-    description: 'Root certificate (needed if cert is self-signed)'
+  controller-tls-ca:
+    description: "Anka Build Cloud Controller TLS certificate's CA (needed if controller TLS cert is self-signed)"
     required: false
-  https-agent-skip-cert-verify:
-    description: 'Whether to skip controllers certificate verification'
+  controller-https-skip-cert-verify:
+    description: "Skip the Anka Build Cloud Controller's TLS certificate verification"
     required: false
     default: 'false'
-  auth-cert:
-    description: "Certificate to use for communication with the Controller's Cert Auth feature"
+  controller-auth-cert:
+    description: "Certificate to use for communication with the Anka Build Cloud Controller's Cert Auth feature"
     required: false
-  auth-cert-key:
-    description: "Private key to use for communication with the Controller's Cert Auth feature"
+  controller-auth-cert-key:
+    description: "Private key to use for communication with the Anka Build Cloud Controller's Cert Auth feature"
     required: false
-  auth-cert-passphrase:
-    description: "Auth Certificate's passphrase"
+  controller-auth-cert-passphrase:
+    description: "The Auth Certificate's passphrase"
     required: false
 
   # Timeouts
-  poll-delay:
-    description: 'Sleep delay (in seconds) between the HTTP requests to the Controller API'
+  controller-http-poll-delay:
+    description: "Delay (in seconds) between the HTTP requests to the Anka Build Cloud Controller's API"
     required: false
     default: '5'
   hard-timeout:
-    description: 'Time interval (in seconds) after which job will be forced to stop (fails with an error)'
+    description: 'TTL (in seconds) after which job will be forced to stop (fails with an error)'
     required: false
     # 12 hours
     default: '43200'
 
   # VM instance
   group-id:
-    description: 'Node group id'
+    description: 'Anka Node Group ID (not name)'
     required: false
   node-id:
-    description: 'Node id'
+    description: 'Anka Node ID (not name)'
     required: false
   vcpu:
-    description: 'vcpu count'
+    description: 'The vCPUs to set before starting the Anka VM'
     required: false
   vram:
-    description: 'vram (MB) amount'
+    description: 'The ram to set before starting the Anka VM'
     required: false
 
 outputs:
