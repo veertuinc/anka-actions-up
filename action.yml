@@ -1,6 +1,9 @@
 name: 'Anka Actions - Up'
 description: 'Spins up new Anka VM Instance through your Anka Build Cloud Controller.'
 author: 'Veertu Inc.'
+branding:
+  icon: 'arrow-up'
+  color: 'purple'
 inputs:
   # Github
   gh-owner:
