@@ -106,18 +106,18 @@ export async function doAction(
 
 export async function parseParams(): Promise<ActionParams> {
   const pollDelay: number = parseInt(
-    core.getInput('poll-delay', {required: true}),
+    core.getInput('controller-http-poll-delay', {required: true}),
     10
   )
   if (isNaN(pollDelay) || pollDelay <= 0)
-    throw new Error('poll-delay must be positive integer')
+    throw new Error('controller-http-poll-delay must be positive integer')
 
   const hardTimeout: number = parseInt(
-    core.getInput('hard-timeout', {required: true}),
+    core.getInput('job-ttl', {required: true}),
     10
   )
   if (isNaN(hardTimeout) || hardTimeout < 0)
-    throw new Error('hard-timeout must be greater then or equal to 0')
+    throw new Error('job-ttl must be greater then or equal to 0')
 
   const ghOwner = core.getInput('gh-owner', {required: true})
 
@@ -133,9 +133,9 @@ export async function parseParams(): Promise<ActionParams> {
       required: true
     }),
 
-    baseUrl: core.getInput('base-url', {required: true}),
+    baseUrl: core.getInput('controller-url', {required: true}),
 
-    rootToken: core.getInput('root-token'),
+    rootToken: core.getInput('controller-root-token'),
 
     pollDelay,
     hardTimeout
@@ -146,28 +146,28 @@ export async function parseParams(): Promise<ActionParams> {
     params.templateTag = templateTag
   }
 
-  const httpsAgentCa = core.getInput('https-agent-ca')
+  const httpsAgentCa = core.getInput('controller-tls-ca')
   if (httpsAgentCa) {
     params.httpsAgentCa = httpsAgentCa
   }
 
-  const httpsAgentCert = core.getInput('https-agent-cert')
+  const httpsAgentCert = core.getInput('controller-auth-cert')
   if (httpsAgentCert) {
     params.httpsAgentCert = httpsAgentCert
   }
 
-  const httpsAgentKey = core.getInput('https-agent-key')
+  const httpsAgentKey = core.getInput('controller-auth-cert-key')
   if (httpsAgentKey) {
     params.httpsAgentKey = httpsAgentKey
   }
 
-  const httpsAgentPassphrase = core.getInput('https-agent-cert-passphrase')
+  const httpsAgentPassphrase = core.getInput('controller-auth-cert-passphrase')
   if (httpsAgentPassphrase) {
     params.httpsAgentPassphrase = httpsAgentPassphrase
   }
 
   const httpsAgentSkipCertVerify = core.getBooleanInput(
-    'https-agent-skip-cert-verify'
+    'controller-https-skip-cert-verify'
   )
   if (httpsAgentSkipCertVerify) {
     params.httpsAgentSkipCertVerify = httpsAgentSkipCertVerify

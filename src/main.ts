@@ -2,7 +2,13 @@ import * as core from '@actions/core'
 import {Octokit} from '@octokit/rest'
 import crypto from 'crypto'
 import {parseParams, doAction} from './action'
-import {Runner, timeout, HardTimeoutError, VM} from 'anka-actions-common'
+import {
+  Runner,
+  timeout,
+  HardTimeoutError,
+  VM,
+  logDebug
+} from 'anka-actions-common'
 ;(async function main(): Promise<void> {
   try {
     const actionId = crypto.randomUUID()
@@ -12,6 +18,7 @@ import {Runner, timeout, HardTimeoutError, VM} from 'anka-actions-common'
       params.ghOwner,
       params.ghRepo
     )
+    logDebug(`runner: ${JSON.stringify(runner)}`)
     const vm = new VM(
       params.baseUrl,
       params.rootToken,
@@ -23,7 +30,7 @@ import {Runner, timeout, HardTimeoutError, VM} from 'anka-actions-common'
     )
     if (params.hardTimeout > 0) {
       await Promise.race([
-        timeout(params.hardTimeout * 1000, 'hard-timeout exceeded'),
+        timeout(params.hardTimeout * 1000, 'job-ttl exceeded'),
         doAction(actionId, runner, vm, params)
       ])
     } else {
@@ -33,6 +40,7 @@ import {Runner, timeout, HardTimeoutError, VM} from 'anka-actions-common'
     let message
     if (error instanceof Error) message = error.message
     else message = String(error)
+    logDebug(`${JSON.stringify(error)}`)
 
     core.setFailed(message)
 
