@@ -39,6 +39,7 @@ test('parse all parameters', async () => {
   expect(params).toEqual({
     ghOwner: 'gh-owner',
     ghRepo: 'gh-repository',
+    ghBaseUrl: 'gh-base-url',
     ghPAT: 'gh-pat',
     templateId: 'template-id',
     templateRunnerDir: 'template-runner-dir',

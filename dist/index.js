@@ -113,6 +113,10 @@ function parseParams() {
             pollDelay,
             hardTimeout
         };
+        const ghBaseUrl = core.getInput('gh-base-url');
+        if (ghBaseUrl) {
+            params.ghBaseUrl = ghBaseUrl;
+        }
         const templateTag = core.getInput('template-tag');
         if (templateTag) {
             params.templateTag = templateTag;
@@ -219,7 +223,7 @@ const anka_actions_common_1 = __nccwpck_require__(3347);
         try {
             const actionId = crypto_1.default.randomUUID();
             const params = yield (0, action_1.parseParams)();
-            const runner = new anka_actions_common_1.Runner(new rest_1.Octokit({ auth: params.ghPAT }), params.ghOwner, params.ghRepo);
+            const runner = new anka_actions_common_1.Runner(new rest_1.Octokit({ auth: params.ghPAT, baseUrl: params.ghBaseUrl }), params.ghOwner, params.ghRepo);
             (0, anka_actions_common_1.logDebug)(`runner: ${JSON.stringify(runner)}`);
             const vm = new anka_actions_common_1.VM(params.baseUrl, params.rootToken, params.httpsAgentCa, params.httpsAgentCert, params.httpsAgentKey, params.httpsAgentPassphrase, params.httpsAgentSkipCertVerify);
             if (params.hardTimeout > 0) {
