@@ -14,6 +14,9 @@ inputs:
     description: 'GitHub repository the github action runner will be attached to'
     required: false
     default: ${{ github.repository }}
+  gh-base-url:
+    description: 'GitHub Enterprise Server base url'
+    required: false
   gh-pat:
     description: 'GitHub personal access token (requires "repo" scope access)'
     required: true

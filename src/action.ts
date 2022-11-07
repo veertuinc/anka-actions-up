@@ -12,6 +12,7 @@ import {
 export type ActionParams = {
   ghOwner: string
   ghRepo: string
+  ghBaseUrl?: string
   ghPAT: string
 
   templateId: string
@@ -139,6 +140,11 @@ export async function parseParams(): Promise<ActionParams> {
 
     pollDelay,
     hardTimeout
+  }
+
+  const ghBaseUrl = core.getInput('gh-base-url')
+  if (ghBaseUrl) {
+    params.ghBaseUrl = ghBaseUrl
   }
 
   const templateTag = core.getInput('template-tag')
