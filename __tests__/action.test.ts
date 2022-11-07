@@ -25,6 +25,8 @@ test('parse all parameters', async () => {
     switch (name) {
       default:
         return name
+      case 'gh-base-url':
+        return 'https://api.github.com'
       case 'controller-http-poll-delay':
         return '1'
       case 'job-ttl':
@@ -39,7 +41,7 @@ test('parse all parameters', async () => {
   expect(params).toEqual({
     ghOwner: 'gh-owner',
     ghRepo: 'gh-repository',
-    ghBaseUrl: 'gh-base-url',
+    ghBaseUrl: 'https://api.github.com',
     ghPAT: 'gh-pat',
     templateId: 'template-id',
     templateRunnerDir: 'template-runner-dir',
@@ -65,6 +67,8 @@ test('parse pollDelay throws', async () => {
     switch (name) {
       default:
         return name
+      case 'gh-base-url':
+        return 'https://api.github.com'
       case 'job-ttl':
         return '2'
     }
@@ -79,6 +83,8 @@ test('parse hardTimeout throws', async () => {
     switch (name) {
       default:
         return name
+      case 'gh-base-url':
+        return 'https://api.github.com'
       case 'controller-http-poll-delay':
         return '1'
     }
@@ -93,6 +99,8 @@ test('parse vcpu throws', async () => {
     switch (name) {
       default:
         return name
+      case 'gh-base-url':
+        return 'https://api.github.com'
       case 'controller-http-poll-delay':
         return '1'
       case 'job-ttl':
@@ -109,6 +117,8 @@ test('parse vram throws', async () => {
     switch (name) {
       default:
         return ''
+      case 'gh-base-url':
+        return 'https://api.github.com'
       case 'controller-http-poll-delay':
         return '1'
       case 'job-ttl':
@@ -118,4 +128,24 @@ test('parse vram throws', async () => {
     }
   })
   expect(parseParams()).rejects.toThrowError('vram must be positive integer')
+})
+
+test('parse gh-base-url throws', async () => {
+  mockedGetInput.mockImplementation((name, attr) => {
+    switch (name) {
+      default:
+        return name
+      case 'gh-base-url':
+        return 'https://fake-url.com'
+      case 'controller-http-poll-delay':
+        return '1'
+      case 'job-ttl':
+        return '2'
+      case 'vram':
+        return '0'
+    }
+  })
+  expect(parseParams()).rejects.toThrowError(
+    'gh-base-urls must include /api/v3'
+  )
 })
