@@ -12,7 +12,7 @@ import {
 export type ActionParams = {
   ghOwner: string
   ghRepo: string
-  ghBaseUrl?: string
+  ghBaseUrl: string
   ghPAT: string
 
   templateId: string
@@ -45,7 +45,14 @@ export async function doAction(
   params: ActionParams
 ): Promise<void> {
   const token = await runner.createToken()
-  const repoUrl = `https://github.com/${params.ghOwner}/${params.ghRepo}`
+
+  // remove api/v3 from urls before registering runner
+  let ghBaseUrl = params.ghBaseUrl.split('/api')[0]
+  // change url for github from the api.github.com to the normal one
+  if (params.ghBaseUrl.match(/api\.github\.com/))
+    ghBaseUrl = 'https://github.com'
+
+  const repoUrl = `${ghBaseUrl}/${params.ghOwner}/${params.ghRepo}`
 
   const vmConfig: StartVMRequest = {
     count: 1,
@@ -56,10 +63,12 @@ export async function doAction(
     group_id: params.group_id,
     node_id: params.node_id,
     startup_script: Buffer.from(
-      `cd ${params.templateRunnerDir} \
-  && ./config.sh --url "${repoUrl}" --token "${token}" --labels "${actionId}" --runnergroup "Default" --name "${actionId}" --work "_work" \
-  && ./svc.sh install \
-  && ./svc.sh start`,
+      `set -exo pipefail; \
+      cd ${params.templateRunnerDir}; \
+      ./config.sh --url "${repoUrl}" --token "${token}" --labels "${actionId}" --runnergroup "Default" --name "${actionId}" --work "_work"; \
+      ./svc.sh install; \
+      ./svc.sh start;
+      `,
       'binary'
     ).toString('base64'),
     script_monitoring: true,
@@ -123,6 +132,7 @@ export async function parseParams(): Promise<ActionParams> {
   const ghOwner = core.getInput('gh-owner', {required: true})
 
   const params: ActionParams = {
+    ghBaseUrl: core.getInput('gh-base-url'),
     ghOwner,
     ghRepo: core
       .getInput('gh-repository', {required: true})
@@ -142,10 +152,8 @@ export async function parseParams(): Promise<ActionParams> {
     hardTimeout
   }
 
-  const ghBaseUrl = core.getInput('gh-base-url')
-  if (ghBaseUrl) {
-    params.ghBaseUrl = ghBaseUrl
-  }
+  if (!params.ghBaseUrl.match('github.com') && !params.ghBaseUrl.match('/api/'))
+    throw new Error('gh-base-urls must include /api/v3')
 
   const templateTag = core.getInput('template-tag')
   if (templateTag) {

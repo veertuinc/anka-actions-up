@@ -12,26 +12,26 @@ This action is mean to be used with [anka-actions-down](https://github.com/veert
 
 | input name                          | required? | description                                                                                                                     |
 |-------------------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `gh-pat`                            | **yes** | Github personal access token (requires `repo` scope in order to be able to create/remove self-hosted runners in the repository) |
-| `controller-url`                    | **yes** | The Anka Build Cloud Controller's URL to communicate with                                                                       |
+| `gh-pat`                            | **yes** | Github personal access token (requires `repo` scope in order to be able to create/remove self-hosted runners in the repository). |
+| `controller-url`                    | **yes** | The Anka Build Cloud Controller's URL to communicate with.                                                                       |
 | `template-id`                       | **yes** | UUID of the Anka VM Template in the Anka Build Cloud Registry.                                                                  |
-| `template-tag`                      | no | Anka VM Template's Tag                                                                                                          |
-| `template-runner-dir`               | no | The directory where the runner was installed.                                                                                   |
-| `gh-owner`                          | no | GitHub repository owner                                                                                                         |
-| `gh-repository`                     | no | GitHub repository the github action runner will be attached to                                                                  |
-| `gh-base-url`                       | no | GitHub Enterprise Server base url                                                                                               |
-| `controller-root-token`             | no | Anka Build Cloud Controller's Root Token used for authentication                                                                |
-| `controller-tls-ca`                 | no | Anka Build Cloud Controller TLS certificate's CA (needed if controller TLS cert is self-signed)                                 |
-| `controller-https-skip-cert-verify` | no | Skip the Anka Build Cloud Controller's TLS certificate verification                                                             |
-| `controller-auth-cert`              | no | Certificate to use for authorization with the Anka Build Cloud Controller                                                       |
-| `controller-auth-cert-key`          | no | Private key to use for authorization with the Anka Build Cloud Controller                                                       |
-| `controller-auth-cert-passphrase`   | no | The Auth Certificate's passphrase                                                                                               |
-| `controller-http-poll-delay`        | no | Delay (in seconds) between the HTTP requests to the Anka Build Cloud Controller's API                                           |
-| `job-ttl`                           | no | TTL (in seconds) after which job will be forced to stop (fails with error) (disable with `0`)                                   |
-| `group-id`                          | no | Anka Node Group ID (not name) to target for starting the VM                                                                     |
-| `node-id`                           | no | Anka Node ID (not name) to target for starting the VM                                                                           |
-| `vcpu`                              | no | The vCPUs to set before starting the Anka VM                                                                                    |
-| `vram`                              | no | The ram to set before starting the Anka VM                                                                                      |
+| `template-tag`                      | no | Anka VM Template's Tag.                                                                                                          |
+| `template-runner-dir`               | no | The directory where the runner was installed. (default: /Users/anka/actions-runner) |
+| `gh-owner`                          | no | GitHub repository owner.                                                                                                         |
+| `gh-repository`                     | no | GitHub repository the github action runner will be attached to.                                                                  |
+| `gh-base-url`                       | no | GitHub Enterprise Server base url with /api/v3 on the end. At the moment only v3 is supported.                                                                           |
+| `controller-root-token`             | no | Anka Build Cloud Controller's Root Token used for authentication.                                                                |
+| `controller-tls-ca`                 | no | Anka Build Cloud Controller TLS certificate's CA (needed if controller TLS cert is self-signed).                                 |
+| `controller-https-skip-cert-verify` | no | Skip the Anka Build Cloud Controller's TLS certificate verification.                                                             |
+| `controller-auth-cert`              | no | Certificate to use for authorization with the Anka Build Cloud Controller.                                                     |
+| `controller-auth-cert-key`          | no | Private key to use for authorization with the Anka Build Cloud Controller.                                                       |
+| `controller-auth-cert-passphrase`   | no | The Auth Certificate's passphrase.                                                                                              |
+| `controller-http-poll-delay`        | no | Delay (in seconds) between the HTTP requests to the Anka Build Cloud Controller's API.                                           |
+| `job-ttl`                           | no | TTL (in seconds) after which job will be forced to stop (fails with error) (disable with `0`).                                   |
+| `group-id`                          | no | Anka Node Group ID (not name) to target for starting the VM.                                                                     |
+| `node-id`                           | no | Anka Node ID (not name) to target for starting the VM.                                                                           |
+| `vcpu`                              | no | The vCPUs to set before starting the Anka VM.                                                                                    |
+| `vram`                              | no | The ram to set before starting the Anka VM.                                                                                      |
 
 ### Outputs
 

@@ -15,8 +15,9 @@ inputs:
     required: false
     default: ${{ github.repository }}
   gh-base-url:
-    description: 'GitHub Enterprise Server base url'
+    description: 'GitHub Enterprise Server base url with /api/v3 on the end. At the moment only v3 is supported.'
     required: false
+    default: 'https://api.github.com'
   gh-pat:
     description: 'GitHub personal access token (requires "repo" scope access)'
     required: true

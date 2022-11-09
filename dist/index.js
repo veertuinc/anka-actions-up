@@ -45,7 +45,12 @@ const anka_actions_common_1 = __nccwpck_require__(3347);
 function doAction(actionId, runner, vm, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const token = yield runner.createToken();
-        const repoUrl = `https://github.com/${params.ghOwner}/${params.ghRepo}`;
+        // remove api/v3 from urls before registering runner
+        let ghBaseUrl = params.ghBaseUrl.split('/api')[0];
+        // change url for github from the api.github.com to the normal one
+        if (params.ghBaseUrl.match(/api\.github\.com/))
+            ghBaseUrl = 'https://github.com';
+        const repoUrl = `${ghBaseUrl}/${params.ghOwner}/${params.ghRepo}`;
         const vmConfig = {
             count: 1,
             vmid: params.templateId,
@@ -54,10 +59,12 @@ function doAction(actionId, runner, vm, params) {
             vram: params.vram,
             group_id: params.group_id,
             node_id: params.node_id,
-            startup_script: Buffer.from(`cd ${params.templateRunnerDir} \
-  && ./config.sh --url "${repoUrl}" --token "${token}" --labels "${actionId}" --runnergroup "Default" --name "${actionId}" --work "_work" \
-  && ./svc.sh install \
-  && ./svc.sh start`, 'binary').toString('base64'),
+            startup_script: Buffer.from(`set -exo pipefail; \
+      cd ${params.templateRunnerDir}; \
+      ./config.sh --url "${repoUrl}" --token "${token}" --labels "${actionId}" --runnergroup "Default" --name "${actionId}" --work "_work"; \
+      ./svc.sh install; \
+      ./svc.sh start;
+      `, 'binary').toString('base64'),
             script_monitoring: true,
             script_fail_handler: 1,
             external_id: actionId
@@ -99,6 +106,7 @@ function parseParams() {
             throw new Error('job-ttl must be greater then or equal to 0');
         const ghOwner = core.getInput('gh-owner', { required: true });
         const params = {
+            ghBaseUrl: core.getInput('gh-base-url'),
             ghOwner,
             ghRepo: core
                 .getInput('gh-repository', { required: true })
@@ -113,10 +121,8 @@ function parseParams() {
             pollDelay,
             hardTimeout
         };
-        const ghBaseUrl = core.getInput('gh-base-url');
-        if (ghBaseUrl) {
-            params.ghBaseUrl = ghBaseUrl;
-        }
+        if (!params.ghBaseUrl.match('github.com') && !params.ghBaseUrl.match('/api/'))
+            throw new Error('gh-base-urls must include /api/v3');
         const templateTag = core.getInput('template-tag');
         if (templateTag) {
             params.templateTag = templateTag;
