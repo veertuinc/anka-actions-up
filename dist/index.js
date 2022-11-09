@@ -60,11 +60,11 @@ function doAction(actionId, runner, vm, params) {
             group_id: params.group_id,
             node_id: params.node_id,
             startup_script: Buffer.from(`set -exo pipefail; \
-      if [[ ! -d "${params.templateRunnerDir}" ]]; then echo "${params.templateRunnerDir} does not exist"; exit 10; fi; \
       cd ${params.templateRunnerDir}; \
       ./config.sh --url "${repoUrl}" --token "${token}" --labels "${actionId}" --runnergroup "Default" --name "${actionId}" --work "_work"; \
       ./svc.sh install; \
-      ./svc.sh start`, 'binary').toString('base64'),
+      ./svc.sh start;
+      `, 'binary').toString('base64'),
             script_monitoring: true,
             script_fail_handler: 1,
             external_id: actionId
