@@ -36,6 +36,7 @@ This action is mean to be used with [anka-actions-down](https://github.com/veert
 ### Outputs
 
 | output name | description |
+| ----------- | ----------- |
 | `action-id` | This is a unique action identifier, it will be set as an External ID in the VM Instance and also as a label on the created Github action runner |
 
 ## Usage
